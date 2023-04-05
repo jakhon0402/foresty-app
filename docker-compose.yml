@@ -7,7 +7,7 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db/foresty
-      SPRING_DATASOURCE_USERNAME: foresty-user
+      SPRING_DATASOURCE_USERNAME: foresty_user
       SPRING_DATASOURCE_PASSWORD: Delicate@99
     depends_on:
       - db
@@ -17,5 +17,5 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_DB: foresty
-      POSTGRES_USER: foresty-user
-      POSTGRES_PASSWORD: Delicate@99
+      POSTGRES_USER: foresty_user
+      POSTGRES_PASSWORD: jakhonLovesHealing@99
