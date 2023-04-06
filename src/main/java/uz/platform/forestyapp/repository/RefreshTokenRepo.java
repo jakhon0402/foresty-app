@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface RefreshTokenRepo extends JpaRepository<RefreshToken, UUID> {
     void deleteAllByUserId(UUID id);
+
+    Optional<RefreshToken> findByUserId(UUID id);
 }

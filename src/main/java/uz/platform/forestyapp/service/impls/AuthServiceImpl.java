@@ -125,9 +125,10 @@ public class AuthServiceImpl implements AuthService {
             if(user.getRole().getRoleName()==RoleName.USER){
                 throw new BadCredentialsException("Error");
             }
-            refreshTokenRepo.deleteAllByUserId(user.getId());
-            RefreshToken refreshTkn = RefreshToken.builder()
-                    .user(user).build();
+
+            Optional<RefreshToken> optionalRefreshToken = refreshTokenRepo.findByUserId(user.getId());
+            RefreshToken refreshTkn = optionalRefreshToken.orElseGet(() -> RefreshToken.builder()
+                    .user(user).build());
             String accessToken = jwtProvider.generateAccessToken(user.getUsername());
             RefreshToken savedRefreshToken = refreshTokenRepo.save(refreshTkn);
 

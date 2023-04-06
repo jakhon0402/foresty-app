@@ -20,6 +20,7 @@ public interface UserRepo extends JpaRepository<User, UUID> {
     Optional<User> findByEmailAndRole(String email, Role role);
 
     Optional<User> findByRole(Role role);
+    Optional<User> findByRoleRoleName(RoleName roleName);
     List<User> findAllByEmail(String email);
     boolean existsByEmailAndRole(String email, Role role);
 

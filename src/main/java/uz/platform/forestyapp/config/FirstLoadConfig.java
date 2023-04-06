@@ -59,8 +59,10 @@ public class FirstLoadConfig {
 
     private void addSuperAdmin() {
         Optional<Role> optionalRole = roleRepo.findByRoleName(RoleName.SUPER_ADMIN);
-        Optional<User> optionalUser = userRepo.findByRole(optionalRole.get());
-        if(optionalUser.isPresent()) return;
+        Optional<User> optionalUser = userRepo.findByRoleRoleName(RoleName.SUPER_ADMIN);
+        if(optionalRole.isPresent()) {
+            return;
+        }
         User user = new User();
         user.setEmail("jakhon99dev@gmail.com");
         user.setUsername("jakhon99dev");
