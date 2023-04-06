@@ -12,7 +12,7 @@ import uz.platform.forestyapp.entity.template.AbsUUIDEntity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "orders")
 public class Order extends AbsUUIDEntity {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Client client;

@@ -59,7 +59,7 @@ public class EmployeeController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER')")
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR')")
     @PutMapping("/{id}")
     public HttpEntity<?> editEmployee(@Valid @RequestBody EmployeeEditDto employeeDto, @CurrentUser User user,@PathVariable("id")UUID id){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());

@@ -122,9 +122,10 @@ public class AuthServiceImpl implements AuthService {
                     loginDto.getUsername(),
                     loginDto.getPassword()));
             User user = (User) authentication.getPrincipal();
-            if(user.getRole().getRoleName()==RoleName.USER || user.getRole().getRoleName() == RoleName.SUPER_ADMIN){
+            if(user.getRole().getRoleName()==RoleName.USER){
                 throw new BadCredentialsException("Error");
             }
+            refreshTokenRepo.deleteAllByUserId(user.getId());
             RefreshToken refreshTkn = RefreshToken.builder()
                     .user(user).build();
             String accessToken = jwtProvider.generateAccessToken(user.getUsername());

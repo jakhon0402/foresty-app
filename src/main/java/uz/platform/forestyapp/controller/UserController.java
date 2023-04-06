@@ -85,12 +85,14 @@ public class UserController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @PostMapping("/editProfile")
     public HttpEntity<?> editProfile(@CurrentUser User user,@RequestBody UserEditDto userEditDto){
         ApiResponse apiResponse = userService.editProfile(user, userEditDto);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @PostMapping("/updateAvatar")
     public HttpEntity<?> updateAvatar(@CurrentUser User user, @RequestParam("file")MultipartFile file) throws IOException {
         ApiResponse apiResponse = userService.updateAvatar(user, file);

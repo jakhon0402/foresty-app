@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,7 @@ public class TimeTableController {
     @Autowired
     RoomRepo roomRepo;
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/today")
     public HttpEntity<?> getTodayTimeTable(@CurrentUser User user){
         ZoneId zoneId = ZoneId.of("Asia/Samarkand");
@@ -38,6 +40,7 @@ public class TimeTableController {
         return ResponseEntity.ok().body(timeTable);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping
     public HttpEntity<?> getCalendarData(@CurrentUser User user, @RequestParam("date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date){

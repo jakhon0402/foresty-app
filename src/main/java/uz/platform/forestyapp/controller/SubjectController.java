@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -31,24 +32,28 @@ public class SubjectController {
     @Autowired
     EducationCenterService educationCenterService;
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/top")
     public HttpEntity<?> getTopSubjects(@CurrentUser User user){
         ApiResponse apiResponse = subjectService.getTopSubjects(user);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/platform")
     public HttpEntity<?> getForestySubjects(){
         List<Subject> forestySubjects = subjectService.getForestySubjects();
         return ResponseEntity.ok().body(forestySubjects);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/private")
     public HttpEntity<?> getPrivateSubjects(@CurrentUser User user){
         List<Subject> privateSubjects = subjectService.getPrivateSubjects(user.getEducationCenter().getId());
         return ResponseEntity.ok().body(privateSubjects);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping
     public HttpEntity<?> getAllSubjects(@CurrentUser User user){
         List<Subject> allSubjects = subjectService.getPrivateSubjects(user.getEducationCenter().getId());
@@ -56,6 +61,7 @@ public class SubjectController {
         return ResponseEntity.ok().body(allSubjects);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR')")
     @PostMapping
     public HttpEntity<?> addSubject(@Valid @RequestBody SubjectDto subjectDto, @CurrentUser User user){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
@@ -66,6 +72,7 @@ public class SubjectController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR')")
     @PutMapping("/{id}")
     public HttpEntity<?> editSubject(@PathVariable("id")UUID id, @Valid @RequestBody SubjectDto subjectDto, @CurrentUser User user){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
@@ -76,6 +83,7 @@ public class SubjectController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR')")
     @DeleteMapping("/{id}")
     public HttpEntity<?> deleteSubject(@PathVariable("id")UUID id, @CurrentUser User user){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());

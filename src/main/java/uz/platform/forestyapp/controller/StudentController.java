@@ -34,31 +34,35 @@ public class StudentController {
     EducationCenterService educationCenterService;
 
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping
     public HttpEntity<?> getStudents(@CurrentUser User user){
         List<Student> students = studentService.getStudents(user);
         return ResponseEntity.ok().body(students);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/{id}")
     public HttpEntity<?> getStudent(@PathVariable("id") UUID id, @CurrentUser User user){
         ApiResponse apiResponse = studentService.getStudent(id, user);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/{id}/groups")
     public HttpEntity<?> getStudentGroups(@PathVariable("id") UUID id, @CurrentUser User user){
         ApiResponse apiResponse = studentService.getStudentGroups(user, id);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/{id}/payment")
     public HttpEntity<?> getStudentPayments(@PathVariable("id") UUID id, @CurrentUser User user){
         ApiResponse apiResponse = studentService.getStudentPayments(user, id);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR')")
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @PostMapping
     public HttpEntity<?> addStudent(@Valid @RequestBody StudentDto studentDto, @CurrentUser User user){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
@@ -71,7 +75,7 @@ public class StudentController {
 
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR')")
     @PutMapping("/{id}")
-    public HttpEntity<?> editTeacher(@Valid @RequestBody StudentDto studentDto, @PathVariable("id")UUID id, @CurrentUser User user){
+    public HttpEntity<?> editStudent(@Valid @RequestBody StudentDto studentDto, @PathVariable("id")UUID id, @CurrentUser User user){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
         if(!checkPlanExpireDate){
             return ResponseEntity.status(409).body("Ta'rif reja aktiv emas!");

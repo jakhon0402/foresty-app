@@ -53,7 +53,7 @@ public class DailyTask {
 
 
 
-//    @Scheduled(cron = "0 22 0 * * *")
+    @Scheduled(cron = "0 22 0 * * *")
 //    @Scheduled(fixedRate = 10000)
     private void newStatusGroupProcess(){
         log.info("newStatusGroupProcess running");
@@ -153,7 +153,7 @@ public class DailyTask {
     }
 
 //    @Scheduled(fixedRate = 10000)
-//    @Scheduled(cron = "0 0 1 * * *")
+    @Scheduled(cron = "0 0 1 * * *")
     private void activeStatusGroupProcess(){
         ZoneId zoneId = ZoneId.of("Asia/Samarkand");
 //        ZonedDateTime dateTime = ZonedDateTime.now(zoneId);
@@ -248,6 +248,7 @@ public class DailyTask {
     }
 
 //    @Scheduled(fixedRate = 10000)
+@Scheduled(cron = "0 30 2 * * *")
     private void completedStatusGroupProcess(){
         ZoneId zoneId = ZoneId.of("Asia/Samarkand");
 //        ZonedDateTime dateTime = ZonedDateTime.now(zoneId);
@@ -295,7 +296,7 @@ public class DailyTask {
     }
 
     @Scheduled(fixedRate = 10000)
-//    @Scheduled(cron = "0 0 2 * * *")
+    @Scheduled(cron = "0 0 2 * * *")
     private void newEmployeeProcess(){
         ZoneId zoneId = ZoneId.of("Asia/Samarkand");
         ZonedDateTime dateTime = ZonedDateTime.now(zoneId);
@@ -340,7 +341,7 @@ public class DailyTask {
     }
 
     @Scheduled(fixedRate = 10000)
-//    @Scheduled(cron = "0 0 3 * * *")
+    @Scheduled(cron = "0 0 3 * * *")
     private void activeEmployeeProcess(){
         ZoneId zoneId = ZoneId.of("Asia/Samarkand");
         ZonedDateTime dateTime = ZonedDateTime.now(zoneId);
@@ -380,7 +381,7 @@ public class DailyTask {
     }
 
     @Scheduled(fixedRate = 10000)
-//    @Scheduled(cron = "0 0 3 * * *")
+    @Scheduled(cron = "0 0 4 * * *")
     private void completedEmployeeProcess(){
         ZoneId zoneId = ZoneId.of("Asia/Samarkand");
         ZonedDateTime dateTime = ZonedDateTime.now(zoneId).plusDays(60);

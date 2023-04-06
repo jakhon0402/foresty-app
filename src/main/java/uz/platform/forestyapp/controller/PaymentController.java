@@ -3,6 +3,7 @@ package uz.platform.forestyapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.platform.forestyapp.entity.User;
 import uz.platform.forestyapp.payload.ApiResponse;
@@ -22,6 +23,7 @@ public class PaymentController {
     @Autowired
     EducationCenterService educationCenterService;
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','FINANCIER')")
     @GetMapping
     public HttpEntity<?> getPayments(@CurrentUser User user){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
@@ -32,6 +34,7 @@ public class PaymentController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','FINANCIER')")
     @GetMapping("/finance")
     public HttpEntity<?> getFinanceData(@CurrentUser User user){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
@@ -42,6 +45,7 @@ public class PaymentController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','FINANCIER')")
     @GetMapping("/employees")
     public HttpEntity<?> getEmployees(@CurrentUser User user){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
@@ -52,6 +56,7 @@ public class PaymentController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','FINANCIER')")
     @GetMapping("/employee/{id}")
     public HttpEntity<?> getEmployee(@CurrentUser User user,@PathVariable("id") UUID id){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
@@ -62,6 +67,7 @@ public class PaymentController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','FINANCIER')")
     @GetMapping("/groups")
     public HttpEntity<?> getGroups(@CurrentUser User user){
         boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());

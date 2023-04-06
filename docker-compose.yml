@@ -1,21 +1,25 @@
 version: '3'
 
 services:
-  app:
+  foresty-app:
+    container_name: foresty-app
+    image: foresty-app
+    restart: always
     build: .
     ports:
-      - "8080:8080"
+      - "8000:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db/foresty
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: jakhonLovesHealing@99
     depends_on:
       - db
+
   db:
     image: postgres
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: foresty
-      POSTGRES_USER: foresty_user
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: jakhonLovesHealing@99

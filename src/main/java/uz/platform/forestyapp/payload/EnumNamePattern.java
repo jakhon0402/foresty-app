@@ -1,8 +1,7 @@
 package uz.platform.forestyapp.payload;
 
 import jakarta.validation.Constraint;
-import lombok.NoArgsConstructor;
-import org.springframework.messaging.handler.annotation.Payload;
+import jakarta.validation.Payload;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

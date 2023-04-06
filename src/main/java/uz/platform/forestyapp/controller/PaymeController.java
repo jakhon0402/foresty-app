@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.platform.forestyapp.payload.json.PaycomRequestForm;
 import uz.platform.forestyapp.service.PaycomService;
 
-@RequestMapping("api/payme")
+@RequestMapping("/api/payme")
 @RestController
 public class PaymeController {
     @Autowired

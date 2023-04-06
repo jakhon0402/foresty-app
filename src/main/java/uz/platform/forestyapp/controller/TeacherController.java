@@ -33,29 +33,34 @@ public class TeacherController {
     @Autowired
     EducationCenterService educationCenterService;
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/{id}/groups")
     public HttpEntity<?> getTeacherGroups(@CurrentUser User user,@PathVariable("id")UUID id){
         ApiResponse apiResponse = teacherService.getTeacherGroups(user,id);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/{id}/payment")
     public HttpEntity<?> getTeacherPayments(@CurrentUser User user,@PathVariable("id")UUID id){
         ApiResponse apiResponse = teacherService.getTeacherPayments(user,id);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping
     public HttpEntity<?> getTeachers(@CurrentUser User user){
         List<Teacher> teachers = teacherService.getTeachers(user);
         return ResponseEntity.ok().body(teachers);
     }
 
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR','FINANCIER')")
     @GetMapping("/{id}")
     public HttpEntity<?> getTeacher(@PathVariable("id")UUID id,@CurrentUser User user){
         ApiResponse apiResponse = teacherService.getTeacher(id, user);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
+
 
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR')")
     @PostMapping
@@ -79,27 +84,27 @@ public class TeacherController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN')")
-    @PostMapping("/block/{id}")
-    public HttpEntity<?> blockTeacher(@PathVariable("id") UUID id, @CurrentUser User user){
-        boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
-        if(!checkPlanExpireDate){
-            return ResponseEntity.status(409).body("Ta'rif reja aktiv emas!");
-        }
-        ApiResponse apiResponse = teacherService.blockTeacher(id, user.getEducationCenter().getId());
-        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
-    }
-
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR')")
-    @PostMapping("/finishWork/{id}")
-    public HttpEntity<?> finishTeacherWork(@PathVariable("id")UUID id,@CurrentUser User user){
-        boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
-        if(!checkPlanExpireDate){
-            return ResponseEntity.status(409).body("Ta'rif reja aktiv emas!");
-        }
-        ApiResponse apiResponse = teacherService.finishWork(id, user);
-        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
-    }
+//    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN')")
+//    @PostMapping("/block/{id}")
+//    public HttpEntity<?> blockTeacher(@PathVariable("id") UUID id, @CurrentUser User user){
+//        boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
+//        if(!checkPlanExpireDate){
+//            return ResponseEntity.status(409).body("Ta'rif reja aktiv emas!");
+//        }
+//        ApiResponse apiResponse = teacherService.blockTeacher(id, user.getEducationCenter().getId());
+//        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
+//    }
+//
+//    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN','MODERATOR')")
+//    @PostMapping("/finishWork/{id}")
+//    public HttpEntity<?> finishTeacherWork(@PathVariable("id")UUID id,@CurrentUser User user){
+//        boolean checkPlanExpireDate = educationCenterService.checkPlanExpireDate(user.getEducationCenter().getId());
+//        if(!checkPlanExpireDate){
+//            return ResponseEntity.status(409).body("Ta'rif reja aktiv emas!");
+//        }
+//        ApiResponse apiResponse = teacherService.finishWork(id, user);
+//        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
+//    }
 
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','OWNER','ADMIN')")
     @DeleteMapping("/{id}")
